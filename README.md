@@ -34,7 +34,9 @@ DevProxy.addProxy ( source, target );
 For example
 
 ```javascript
-DevProxy.addProxy ( '/rest/', 'http://localhost:8080' );
+if (process.env.NODE_ENV === "development" && DevProxy) {
+    DevProxy.addProxy ( '/rest/', 'http://localhost:8080' );
+}
 ```
 
 The above configuration will proxy all calls made to `/rest/` to `http:localhost:8080/rest/`.
