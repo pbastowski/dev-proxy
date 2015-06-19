@@ -27,14 +27,19 @@ This remapping will only be done in the development environment. Once you deploy
 This package exports DevProxy, which has the following method that allows you to configure the proxying:
 
 ```javascript
-DevProxy.addProxy ( source, target );
+DevProxy.addProxy ( source, target, replacePath );
 ```
+
+- `source` is the source path of the URL on your Meteor server that needs to be proxied to the `target` server.
+- `target` is the target server URL that you want to forward your requests to.
+- `replacePath` is optional. With replace path you can specify that a portion of your source path shoudl be replaced with a new string. For example if the `/rest/` path on your server is equivalent to the `/api/` path on the target, then replace path would look like this: `{ search: '/rest', replace: '/api' }`. `search` and `replace` can be any valid URL strings. 
 
 For example, the configuration below will proxy all calls made to `/rest/` to `http:localhost:8080/rest/`.
 
 ```javascript
 if (process.env.NODE_ENV === "development" && DevProxy) {
-    DevProxy.addProxy ( '/rest/', 'http://localhost:8080' );
+    DevProxy.addProxy ( '/rest/', 'http://localhost:8080' , { search: '/rest', replace: '/api' } );
 }
 ```
 
+> Note: If the proxying is not working for you, try using `google.com` as the target. Google will display an error message to the user, including the requested path, when it receives a request for a path that it does not recognise. This may help you identify the problem.

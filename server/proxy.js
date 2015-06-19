@@ -6,15 +6,20 @@ if (process.env.NODE_ENV === "development") {
         addProxy: addProxy
     };
 
-    function addProxy(source, target) {
+    function addProxy(source, target, replacePath) {
         var apiProxy = proxy.createProxyServer({
-            target: target //example: 'http://localhost:8080'
+            target: target,
+            changeOrigin: !!replacePath
         });
 
         WebApp.connectHandlers
             .use(function (req, res, next) {
                 if (req.url.indexOf(source) > -1) {
-                    console.log('proxying ' + req.url);
+                    if (replacePath)
+                        req.url = req.url.replace(replacePath.search, replacePath.replace);
+
+                    console.log('proxying ' + req.url, ' to: ', target);
+
                     apiProxy.web(req, res);
                 }
                 else {
