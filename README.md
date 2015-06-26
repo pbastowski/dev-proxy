@@ -23,7 +23,7 @@ For example, once you deploy to production, where your front-end code is served 
   
 ```javascript
 if (process.env.NODE_ENV === "development" && typeof DevProxy !== 'undefined') {
-    DevProxy( .... )
+    DevProxy.addProxy( .... )
 }
 ```
 
