@@ -16,7 +16,17 @@ can be sent to
 
     localhost:8080/rest/
 
-This remapping will only be done in the development environment. Once you deploy to production, where your front-end code is served by apache, or any other server, the proxying will no longer be necessary and will not actually happen. 
+
+> It is up to you to ensure that the proxy is enabled only when you need it. 
+
+For example, once you deploy to production, where your front-end code is served by apache or some other server, the proxy may no longer be necessary. To ensure that the DevProxy is enabled only in development you could use code like this:
+  
+```javascript
+if (process.env.NODE_ENV === "development" && typeof DevProxy !== 'undefined') {
+    DevProxy( .... )
+}
+```
+
 
 ## Installation
 
@@ -29,6 +39,17 @@ This package exports DevProxy, which has the following method that allows you to
 ```javascript
 DevProxy.addProxy ( source, target, replacePath );
 ```
+
+Or, if you have more than one server that you want to proxy to, then you could do this:
+
+```javascript
+DevProxy.addProxy([
+    {source: '/myapp/img', target: 'http://localhost:3000', replacePath: { search: '/myapp/', replace: '/' }},
+    {source: '/myapp/api/', target: 'http://localhost:8080' }
+]);
+```
+
+The example above also shows how to cater for the eventual deployment to a server that will require a prefix, such as "myapp", in the URL after the server name. So, you may be developing and testing on `localhost:3000/home`, but the target server may require an app name prefix, such that the URL will become `my.server.com/myapp/home`. To fix this, `replacePath` is used to remove the "myapp" prefix from the URL. In this way you won't have to make any changes to your app when you deploy it to the server.
 
 - `source` is the source path of the URL on your Meteor server that needs to be proxied to the `target` server.
 - `target` is the target server URL that you want to forward your requests to.
