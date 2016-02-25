@@ -44,16 +44,23 @@ Or, if you have more than one server that you want to proxy to, then you could d
 
 ```javascript
 DevProxy.addProxy([
+    // proxy all requests for "/myapp/img/" to "http://localhost:3000/img" (removing "/myapp")
     {source: '/myapp/img', target: 'http://localhost:3000', replacePath: { search: '/myapp/', replace: '/' }},
-    {source: '/myapp/api/', target: 'http://localhost:8080' }
+
+    // proxy all requests for "/myapp/api/" to "http://localhost:8080/myapp/api"
+    {source: '/myapp/api/', target: 'http://localhost:8080' },
+
+    // proxy only then then URL path is the exact string "/goo"
+    {source: '/goo', target: 'https://www.google.com.au', exactMatch: true, replacePath: { search: '/goo', replace: '/' }}
 ]);
 ```
 
 The example above also shows how to cater for the eventual deployment to a server that will require a prefix, such as "myapp", in the URL after the server name. So, you may be developing and testing on `localhost:3000/home`, but the target server may require an app name prefix, such that the URL will become `my.server.com/myapp/home`. To fix this, `replacePath` is used to remove the "myapp" prefix from the URL. In this way you won't have to make any changes to your app when you deploy it to the server.
 
-- `source` is the source path of the URL on your Meteor server that needs to be proxied to the `target` server.
+- `source` is the source path of the URL on your Meteor server that needs to be proxied to the `target` server. Proxying will trigger if the URL on the server contains the `source` string.
 - `target` is the target server URL that you want to forward your requests to.
 - `replacePath` is optional. With replace path you can specify that a portion of your source path shoudl be replaced with a new string. For example if the `/rest/` path on your server is equivalent to the `/api/` path on the target, then replace path would look like this: `{ search: '/rest', replace: '/api' }`. `search` and `replace` can be any valid URL strings. 
+- `exactMatch` is optional. When `true` the URL on the Meteor server must match exactly the `source` string to activate the proxying.
 
 For example, the configuration below will proxy all calls made to `/rest/` to `http:localhost:8080/rest/`.
 
