@@ -50,7 +50,7 @@ DevProxy.addProxy([
     // proxy all requests for "/myapp/api/" to "http://localhost:8080/myapp/api"
     {source: '/myapp/api/', target: 'http://localhost:8080' },
 
-    // proxy only then then URL path is the exact string "/goo"
+    // proxy only when the URL path is the exact string "/goo"
     {source: '/goo', target: 'https://www.google.com.au', exactMatch: true, replacePath: { search: '/goo', replace: '/' }}
 ]);
 ```
