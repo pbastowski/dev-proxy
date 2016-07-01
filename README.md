@@ -71,3 +71,9 @@ if (process.env.NODE_ENV === "development" && DevProxy) {
 ```
 
 > Note: If the proxying is not working for you, try using `google.com` as the target. Google will display an error message to the user, including the requested path, when it receives a request for a path that it does not recognise. This may help you identify the problem.
+
+# Changelog
+
+### 1 Jul 2016 - v0.0.5
+
+- Updated http-proxy to v1.14.0
