@@ -1,5 +1,7 @@
 # Development proxy
 
+> Do NOT use `dev-proxy` at the same time as the `body-parser` middleware, because the body-parser will eat the payload body from all your POST and PUT requests. GETs will, however, work just fine.
+
 Are you using some form of an apache web server, such as tomcat, to serve your REST api while doing your front-end development work in Meteor?
 
 If so, then you might encounter these two problems:
