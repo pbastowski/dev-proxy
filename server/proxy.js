@@ -1,5 +1,10 @@
 //if (process.env.NODE_ENV === "development") {
 
+    function defaultMatcher(reqUrl, source) {
+        return reqUrl.indexOf(source) > -1;
+    }
+
+
     var httpProxy = Npm.require('http-proxy');
 
     DevProxy = {
@@ -23,10 +28,11 @@
         // Enable all requested proxies
         proxies.forEach(function(config) {
             console.log('Proxy config:\n', JSON.stringify(config, null, 4));
-            makeProxy( config.source, config.target, config.replacePath, config.exactMatch || false );
+            makeProxy( config.source, config.target, config.replacePath, config.exactMatch || false,
+                config.matcher || defaultMatcher );
         });
 
-        function makeProxy (source, target, replacePath, exactMatch) {
+        function makeProxy (source, target, replacePath, exactMatch, matcher) {
             var apiProxy = httpProxy.createProxyServer({
                 target: target,
                 changeOrigin: !!replacePath
@@ -34,7 +40,8 @@
 
             WebApp.connectHandlers
                 .use(function (req, res, next) {
-                    if ((!exactMatch && req.url.indexOf(source) > -1) || (exactMatch && req.url === source)) {
+
+                    if ((!exactMatch && matcher(req.url, source)) || (exactMatch && req.url === source)) {
                         if (replacePath)
                             req.url = req.url.replace(replacePath.search, replacePath.replace);
 
