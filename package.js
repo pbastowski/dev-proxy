@@ -1,13 +1,13 @@
 Package.describe({
     name:          'pbastowski:dev-proxy',
-    version:       '0.0.5',
+    version:       '0.0.6',
     summary:       'Proxy your REST api calls to a web server running on the same machine, but another port.',
     git:           'https://github.com/pbastowski/dev-proxy',
     documentation: 'README.md'
 });
 
 var npmDeps = {
-    "http-proxy": "1.14.0",
+    "http-proxy": "1.16.2",
 };
 
 Npm.depends(npmDeps);

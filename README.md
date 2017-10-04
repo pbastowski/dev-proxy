@@ -1,5 +1,9 @@
 # Development proxy
 
+A simple proxy server to help you proxy your REST api calls to a web server running on the same machine, but another port.
+
+## Description
+
 > Do NOT use `dev-proxy` at the same time as the `body-parser` middleware, because the body-parser will eat the payload body from all your POST and PUT requests. GETs will, however, work just fine.
 
 Are you using some form of an apache web server, such as tomcat, to serve your REST api while doing your front-end development work in Meteor?
