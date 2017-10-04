@@ -63,7 +63,7 @@ The example above also shows how to cater for the eventual deployment to a serve
 - `target` is the target server URL that you want to forward your requests to.
 - `replacePath` is optional. With replace path you can specify that a portion of your source path shoudl be replaced with a new string. For example if the `/rest/` path on your server is equivalent to the `/api/` path on the target, then replace path would look like this: `{ search: '/rest', replace: '/api' }`. `search` and `replace` can be any valid URL strings. 
 - `exactMatch` is optional. When `true` the URL on the Meteor server must match exactly the `source` string to activate the proxying.
-- `matcher` it is optional. It has no effect if <code> exactMatch = false </code>. It is the match function to be used. It can be used, for example, to make regular expression matcher or to negate a expression. If not informed, the following substring contains function will be used:
+- `matcher` is optional. It has no effect if <code> exactMatch = false </code>. It is the match function to be used. It can be used, for example, to make regular expression matcher or to negate a expression. If not informed, the following function will be used:
 ```javascript
     function defaultMatcher(reqUrl, source) {
         return reqUrl.indexOf(source) > -1;
