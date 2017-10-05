@@ -86,6 +86,11 @@ if (process.env.NODE_ENV === "development" && DevProxy) {
 
 # Changelog
 
+### 4 Oct 2017 - v0.0.6
+
+- Updated http-proxy to v1.16.2
+- Added matcher option, see Usage section above.
+
 ### 1 Jul 2016 - v0.0.5
 
 - Updated http-proxy to v1.14.0
