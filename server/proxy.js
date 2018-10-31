@@ -6,6 +6,8 @@
 
 
     var httpProxy = Npm.require('http-proxy');
+    var url = Npm.require('url');
+    var URLSearchParams = url.URLSearchParams;
 
     DevProxy = {
         addProxy: addProxy
@@ -44,6 +46,14 @@
                     if ((!exactMatch && matcher(req.url, source)) || (exactMatch && req.url === source)) {
                         if (replacePath)
                             req.url = req.url.replace(replacePath.search, replacePath.replace);
+
+                        if (req.query) {
+                            // Meteor 1.5 has no req.query. Meteor 1.8 has req.query.
+                            var queryString = new URLSearchParams(req.query).toString();
+                            if (queryString) {
+                                req.url += '?' + queryString;
+                            }
+                        }
 
                         console.log('proxying ' + req.url, ' to: ', target);
 
